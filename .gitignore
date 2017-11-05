@@ -2,5 +2,7 @@
 deployment/.terraform
 deployment/consul
 deployment/godata
+*.tfstate
+*.tfstate.backup
 *.tfvars
 *.pem

@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+  gocd:
+    image: gocd/gocd-server:v17.9.0
+    ports:
+      - "8153:8153"
+      - "8154:8154"
+    volumes:
+      - /deployment/godata:/godata
+
+  consul:
+    image: consul
+    volumes:
+      - /deployment/consul:/tmp/consul
+    environment:
+      - VIRTUAL_HOST=localhost
+      - VIRTUAL_PORT=8500
+    command: "consul agent -server -ui -bootstrap -data-dir /tmp/consul -bind=127.0.0.1 -client=0.0.0.0 -retry-join=0.0.0.0"
+
+  nginx-proxy-consul:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - /deployment/htpasswd:/etc/nginx/htpasswd
