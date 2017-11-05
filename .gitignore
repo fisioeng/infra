@@ -1,0 +1,6 @@
+.terraform
+deployment/.terraform
+deployment/consul
+deployment/godata
+*.tfvars
+*.pem
